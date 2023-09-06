@@ -3,8 +3,11 @@
     public class Employee
     {
         public Guid Id { get; set; }
-        public string Name { get; set; } = null!; 
-        public string Position { get; set; } = null!;
-        public string Role { get; set; } = null!;
+        public required string FullName { get; set; }
+        public required string Position { get; set; }
+        public required string Role { get; set; }
+        public required string Email { get; set; }
+        public required string Password { get; set; }
+        public string? Phone { get; set; }
     }
 }
