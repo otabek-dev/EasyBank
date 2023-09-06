@@ -23,8 +23,8 @@ namespace EasyBank
             var adminUser = new Employee
             {
                 Id = Guid.NewGuid(),
-                Email = faker.Person.Email,
-                FullName = faker.Person.FullName,
+                Email = "otabek.pro@hotmail.com",
+                FullName = "Otabek Rustamov",
                 Password = "AQAAAAIAAYagAAAAEJsQhxvRZnTRqO2Jk9q/36tRhT1LD9BIAUsMuO2YrxZ4UlTc6QRjTD5Cbb7uA/sSsw==",
                 Position = "Developer",
                 Role = "Admin",
