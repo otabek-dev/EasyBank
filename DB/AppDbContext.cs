@@ -1,7 +1,7 @@
 ﻿using EasyBank.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace EasyBank
+namespace EasyBank.DB
 {
     public class AppDbContext : DbContext
     {

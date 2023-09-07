@@ -1,7 +1,7 @@
 ﻿using EasyBank.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace EasyBank
+namespace EasyBank.DB
 {
     public class AppDbConfig
     {
@@ -42,7 +42,7 @@ namespace EasyBank
                     Email = faker.Person.Email,
                     FullName = faker.Person.FullName,
                     Password = "AQAAAAIAAYagAAAAEJsQhxvRZnTRqO2Jk9q/36tRhT1LD9BIAUsMuO2YrxZ4UlTc6QRjTD5Cbb7uA/sSsw==",
-                    Position = positions[faker.Random.Int(0,3)],
+                    Position = positions[faker.Random.Int(0, 3)],
                     Role = role[faker.Random.Int(0, 2)],
                     Phone = faker.Person.Phone
                 };

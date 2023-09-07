@@ -1,4 +1,5 @@
-﻿using EasyBank.DTOs;
+﻿using EasyBank.DB;
+using EasyBank.DTOs;
 using EasyBank.Models;
 using Microsoft.EntityFrameworkCore;
 

@@ -1,4 +1,4 @@
-using EasyBank;
+using EasyBank.DB;
 using EasyBank.Services;
 using Microsoft.EntityFrameworkCore;
 

@@ -1,4 +1,5 @@
-﻿using EasyBank.DTOs;
+﻿using EasyBank.DB;
+using EasyBank.DTOs;
 using EasyBank.Models;
 using EasyBank.Services;
 using Microsoft.AspNetCore.Mvc;
