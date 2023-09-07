@@ -1,7 +1,7 @@
 ﻿using EasyBank.DTOs;
 using EasyBank.Models;
+using EasyBank.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Internal;
 
 namespace EasyBank.Controllers
 {
@@ -10,72 +10,47 @@ namespace EasyBank.Controllers
     public class EmployeeController : ControllerBase
     {
         private readonly AppDbContext _context;
+        private readonly EmployeeService _employeeService;
 
-        public EmployeeController(AppDbContext dbContext)
+        public EmployeeController(EmployeeService employeeService ,AppDbContext dbContext)
         {
             _context = dbContext;
+            _employeeService = employeeService;
         }
 
         // GET: api/<Employee>
         [HttpGet]
-        public IEnumerable<Employee> Get()
+        public async Task<IEnumerable<Employee>> Get()
         {
-            return _context.Employees.ToList();
+            return await _employeeService.GetAllEmployee();
         }
 
         // GET api/<Employee>/5
         [HttpGet("{id}")]
-        public Employee Get(Guid id)
+        public async Task<Employee> Get(Guid id)
         {
-            var employee = _context.Employees.FirstOrDefault(e => e.Id == id);
-            return employee;
+            return await _employeeService.GetEmployeeById(id);
         }
 
         // POST api/<Employee>
         [HttpPost]
-        public void Post([FromBody] EmployeeDto emp)
+        public async Task Post([FromBody] EmployeeDto employee)
         {
-            var employee = new Employee() 
-            { 
-                Id = Guid.NewGuid(),
-                Email = emp.Email,
-                FullName = emp.FullName,
-                Password = emp.Password,
-                Position = emp.Position,
-                Role = "Employee",
-                Phone = emp.Phone
-            };
-
-            _context.Employees.Add(employee);
-            _context.SaveChanges();
+            await _employeeService.CreateEmployee(employee);
         }
         
         // PUT api/<Employee>/5
         [HttpPut("{id}")]
-        public void Put(Guid id, [FromBody] EmployeeDto emp)
+        public async Task Put(Guid id, [FromBody] EmployeeDto emp)
         {
-            var employee = new Employee()
-            {
-                Id = id,
-                Email = emp.Email,
-                FullName = emp.FullName,
-                Password = emp.Password,
-                Position = emp.Position,
-                Role = "Employee",
-                Phone = emp.Phone
-            };
-
-            _context.Employees.Update(employee);
-            _context.SaveChanges();
+            await _employeeService.UpdateEmployee(id, emp);
         }
 
         // DELETE api/<Employee>/5
         [HttpDelete("{id}")]
-        public void Delete(Guid id)
+        public async Task Delete(Guid id)
         {
-            var employee = _context.Employees.First(e => e.Id == id);
-            _context.Employees.Remove(employee);
-            _context.SaveChanges();
+            await _employeeService.DeleteEmployee(id);
         }
     }
 }
