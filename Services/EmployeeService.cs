@@ -14,6 +14,27 @@ namespace EasyBank.Services
             _context = context;
         }
 
+        private Employee GenerateEmployee(Guid id, EmployeeDto employee)
+        {
+            var emp = new Employee()
+            {
+                Id = id,
+                Email = employee.Email,
+                FullName = employee.FullName,
+                Password = employee.Password,
+                Position = employee.Position,
+                Role = "Employee",
+                Phone = employee.Phone
+            };
+
+            return emp;
+        }
+
+        public Employee GenerateEmployee(EmployeeDto employee) 
+        {
+            return GenerateEmployee(Guid.NewGuid(), employee);
+        }
+
         public async Task<IEnumerable<Employee>> GetAllEmployee()
         {
             return await _context.Employees.ToListAsync();
@@ -27,34 +48,14 @@ namespace EasyBank.Services
 
         public async Task CreateEmployee(EmployeeDto employee)
         {
-            var emp = new Employee()
-            {
-                Id = Guid.NewGuid(),
-                Email = employee.Email,
-                FullName = employee.FullName,
-                Password = employee.Password,
-                Position = employee.Position,
-                Role = "Employee",
-                Phone = employee.Phone
-            };
-
+            var emp = GenerateEmployee(employee);
             await _context.Employees.AddAsync(emp);
             await _context.SaveChangesAsync();
         }
 
         public async Task UpdateEmployee(Guid id, EmployeeDto employee)
         {
-            var emp = new Employee()
-            {
-                Id = id,
-                Email = employee.Email,
-                FullName = employee.FullName,
-                Password = employee.Password,
-                Position = employee.Position,
-                Role = "Employee",
-                Phone = employee.Phone
-            };
-
+            var emp = GenerateEmployee(id, employee);
             _context.Employees.Update(emp);
             await _context.SaveChangesAsync();
         }
