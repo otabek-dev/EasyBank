@@ -25,7 +25,7 @@ namespace EasyBank.DB
                 Id = Guid.NewGuid(),
                 Email = "otabek.pro@hotmail.com",
                 FullName = "Otabek Rustamov",
-                Password = "AQAAAAIAAYagAAAAEJsQhxvRZnTRqO2Jk9q/36tRhT1LD9BIAUsMuO2YrxZ4UlTc6QRjTD5Cbb7uA/sSsw==",
+                Password = "123123123",
                 Position = "Developer",
                 Role = "Admin",
                 Phone = faker.Person.Phone
@@ -41,7 +41,7 @@ namespace EasyBank.DB
                     Id = Guid.NewGuid(),
                     Email = faker.Person.Email,
                     FullName = faker.Person.FullName,
-                    Password = "AQAAAAIAAYagAAAAEJsQhxvRZnTRqO2Jk9q/36tRhT1LD9BIAUsMuO2YrxZ4UlTc6QRjTD5Cbb7uA/sSsw==",
+                    Password = "123123123",
                     Position = positions[faker.Random.Int(0, 3)],
                     Role = role[faker.Random.Int(0, 2)],
                     Phone = faker.Person.Phone

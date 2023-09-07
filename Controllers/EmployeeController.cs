@@ -21,6 +21,7 @@ namespace EasyBank.Controllers
 
         // GET: api/<Employee>
         [HttpGet]
+        [Authorize(Roles = "Admin,Director")]
         public async Task<IEnumerable<Employee>> Get()
         {
             return await _employeeService.GetAllEmployee();
@@ -28,30 +29,34 @@ namespace EasyBank.Controllers
 
         // GET api/<Employee>/5
         [HttpGet("{id}")]
-        public async Task<Employee> Get(Guid id)
+        [Authorize(Roles = "Admin,Director")]
+        public async Task<IActionResult> Get(Guid id)
         {
             return await _employeeService.GetEmployeeById(id);
         }
 
         // POST api/<Employee>
         [HttpPost]
-        public async Task Post([FromBody] EmployeeDto employee)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Post([FromBody] EmployeeDto employee)
         {
-            await _employeeService.CreateEmployee(employee);
+            return await _employeeService.CreateEmployee(employee);
         }
         
         // PUT api/<Employee>/5
         [HttpPut("{id}")]
-        public async Task Put(Guid id, [FromBody] EmployeeDto emp)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Put(Guid id, [FromBody] EmployeeDto emp)
         {
-            await _employeeService.UpdateEmployee(id, emp);
+            return await _employeeService.UpdateEmployee(id, emp);
         }
 
         // DELETE api/<Employee>/5
         [HttpDelete("{id}")]
-        public async Task Delete(Guid id)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Delete(Guid id)
         {
-            await _employeeService.DeleteEmployee(id);
+            return await _employeeService.DeleteEmployee(id);
         }
     }
 }

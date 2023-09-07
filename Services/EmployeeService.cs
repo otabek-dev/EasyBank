@@ -1,11 +1,12 @@
 ﻿using EasyBank.DB;
 using EasyBank.DTOs;
 using EasyBank.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace EasyBank.Services
 {
-    public class EmployeeService 
+    public class EmployeeService : Controller
     {
         private readonly AppDbContext _context;
 
@@ -23,7 +24,7 @@ namespace EasyBank.Services
                 FullName = employee.FullName,
                 Password = employee.Password,
                 Position = employee.Position,
-                Role = "Employee",
+                Role = employee.Role ?? "Employee",
                 Phone = employee.Phone
             };
 
@@ -40,31 +41,46 @@ namespace EasyBank.Services
             return await _context.Employees.ToListAsync();
         }
 
-        public async Task<Employee> GetEmployeeById(Guid id)
+        public async Task<IActionResult> GetEmployeeById(Guid id)
         {
             var employee = await _context.Employees.FirstOrDefaultAsync(e => e.Id == id);
-            return employee;
+            if (employee is null)
+                return NotFound("Employee not found");
+            return Ok(employee);
         }
 
-        public async Task CreateEmployee(EmployeeDto employee)
+        public async Task<IActionResult> CreateEmployee(EmployeeDto employee)
         {
             var emp = GenerateEmployee(employee);
             await _context.Employees.AddAsync(emp);
             await _context.SaveChangesAsync();
+            return Ok("Employee created!");
         }
 
-        public async Task UpdateEmployee(Guid id, EmployeeDto employee)
+        public async Task<IActionResult> UpdateEmployee(Guid id, EmployeeDto newEmployeeData)
         {
-            var emp = GenerateEmployee(id, employee);
-            _context.Employees.Update(emp);
+            var emp = await _context.Employees.FirstOrDefaultAsync(e => e.Id == id);
+            if (emp is null)
+                return NotFound("User not found!");
+
+            var entry = _context.Entry(emp);
+
+            entry.CurrentValues.SetValues(newEmployeeData);
+
             await _context.SaveChangesAsync();
+
+            return Ok("Employee updated!");
         }
 
-        public async Task DeleteEmployee(Guid id)
+        public async Task<IActionResult> DeleteEmployee(Guid id)
         {
-            var emp = _context.Employees.FirstAsync(e => e.Id == id).Result;
+            var emp = await _context.Employees.FirstOrDefaultAsync(e => e.Id == id);
+            if (emp is null)
+                return NotFound("User nut found!");
+
             _context.Employees.Remove(emp);
             await _context.SaveChangesAsync();
+            return Ok("Employee deleted!");
         }
     }
 }
