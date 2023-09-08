@@ -22,6 +22,7 @@ namespace EasyBank.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(Guid id)
         {
+
             return await _cardService.GetCardById(id);
         }
 

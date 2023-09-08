@@ -1,8 +1,10 @@
 ﻿using EasyBank.DB;
 using EasyBank.DTOs;
 using EasyBank.Models;
+using EasyBank.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace EasyBank.Controllers
 {
@@ -11,16 +13,20 @@ namespace EasyBank.Controllers
     public class CustomerController : ControllerBase
     {
         private readonly AppDbContext _context;
+        private readonly HistoryService _historyService;
 
-        public CustomerController(AppDbContext context)
+        public CustomerController(AppDbContext context, HistoryService historyService)
         {
             _context = context;
+            _historyService = historyService;
         }
 
         // GET: api/<CustomerController>
         [HttpGet]
         public async Task<IEnumerable<Customer>> Get()
         {
+            await _historyService.CreateHistoyr(User, "get all");
+
             return await _context.Customers.ToListAsync();
         }
 
@@ -29,11 +35,8 @@ namespace EasyBank.Controllers
         public async Task<IActionResult> Get(Guid id)
         {
             var customer = await _context.Customers.FindAsync(id);
-
             if (customer == null) return Ok("User not found!");
-
             _context.Cards.Where(x => x.CustomerId == customer.Id).Load();
-
             return Ok(customer);
         }
 

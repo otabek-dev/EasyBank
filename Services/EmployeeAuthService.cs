@@ -26,7 +26,8 @@ namespace EasyBank.Services
         {
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Role, employee.Role)
+                new Claim(ClaimTypes.Role, employee.Role),
+                new Claim(ClaimTypes.NameIdentifier, employee.Id.ToString())
             };
 
             var token = new JwtSecurityToken(

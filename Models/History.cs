@@ -10,12 +10,8 @@ namespace EasyBank.Models
         public required string OperatorId { get; set; }
         
         [JsonIgnore]
-        public Customer? Customer { get; set; }
-        public Guid? CustomerId { get; set; }
-        
-        [JsonIgnore]
-        public Card? Card { get; set; }
-        public Guid? CardId { get; set; }
+        public Employee? Employee { get; set; }
+        public Guid? EmployeeId { get; set; }
     }
 
 }
