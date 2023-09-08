@@ -32,10 +32,9 @@ namespace EasyBank.DB
             };
             _modelBuilder.Entity<Employee>().HasData(adminUser);
 
-            // Add 10 users
-            for (int i = 0; i < 10; i++)
+            // Add 5 users
+            for (int i = 0; i < 5; i++)
             {
-                faker = new Bogus.Faker();
                 var user = new Employee
                 {
                     Id = Guid.NewGuid(),
@@ -47,6 +46,28 @@ namespace EasyBank.DB
                     Phone = faker.Person.Phone
                 };
                 _modelBuilder.Entity<Employee>().HasData(user);
+            }
+
+            // Add 10 customers and cards
+            for (int i = 0; i < 10; i++)
+            {
+                var customer = new Customer
+                {
+                    Id = Guid.NewGuid(),
+                    FullName = faker.Person.FullName,
+                    Address = faker.Person.Phone
+                };
+
+                var card = new Card
+                {
+                    Id = Guid.NewGuid(),
+                    CardNumber = faker.Finance.CreditCardNumber(),
+                    PinCode = faker.Finance.CreditCardCvv(),
+                    CustomerId = customer.Id,
+                };
+
+                _modelBuilder.Entity<Customer>().HasData(customer);
+                _modelBuilder.Entity<Card>().HasData(card);
             }
         }
     }

@@ -10,6 +10,9 @@ namespace EasyBank.DB
         }
 
         public DbSet<Employee> Employees { get; set; }
+        public DbSet<Customer> Customers { get; set; }
+        public DbSet<Card> Cards { get; set; }
+        public DbSet<History> History { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

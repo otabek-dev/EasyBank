@@ -3,9 +3,9 @@
     public class Card
     {
         public Guid Id { get; set; }
-        public required string CardId { get; set; }
+        public required string CardNumber { get; set; }
         public required string PinCode { get; set; }
-        public required bool IsBlocked { get; set; }
+        public bool IsBlocked { get; set; }
 
         public Guid CustomerId { get; set; }
         public Customer? Customer { get; set; }
