@@ -35,6 +35,7 @@ namespace EasyBank.DB
             // Add 5 users
             for (int i = 0; i < 5; i++)
             {
+                faker = new Bogus.Faker();
                 var user = new Employee
                 {
                     Id = Guid.NewGuid(),
@@ -51,6 +52,8 @@ namespace EasyBank.DB
             // Add 10 customers and cards
             for (int i = 0; i < 10; i++)
             {
+                faker = new Bogus.Faker();
+
                 var customer = new Customer
                 {
                     Id = Guid.NewGuid(),
