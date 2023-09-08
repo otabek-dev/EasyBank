@@ -1,4 +1,6 @@
-﻿namespace EasyBank.Models
+﻿using System.Text.Json.Serialization;
+
+namespace EasyBank.Models
 {
     public class Card
     {
@@ -7,8 +9,9 @@
         public required string PinCode { get; set; }
         public bool IsBlocked { get; set; }
 
-        public Guid CustomerId { get; set; }
+        [JsonIgnore]
         public Customer? Customer { get; set; }
+        public Guid CustomerId { get; set; }
 
         public List<History> CardHistory { get; set; } = new();
     }

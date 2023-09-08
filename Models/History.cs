@@ -1,4 +1,6 @@
-﻿namespace EasyBank.Models
+﻿using System.Text.Json.Serialization;
+
+namespace EasyBank.Models
 {
     public class History
     {
@@ -6,12 +8,14 @@
         public DateTime Timestamp { get; set; }
         public required string OperationType { get; set; }
         public required string OperatorId { get; set; }
-
-        public Guid? CustomerId { get; set; }
+        
+        [JsonIgnore]
         public Customer? Customer { get; set; }
-
-        public Guid? CardId { get; set; }
+        public Guid? CustomerId { get; set; }
+        
+        [JsonIgnore]
         public Card? Card { get; set; }
+        public Guid? CardId { get; set; }
     }
 
 }
