@@ -1,4 +1,5 @@
-﻿using EasyBank.DB;
+﻿using Azure.Core;
+using EasyBank.DB;
 using EasyBank.DTOs;
 using EasyBank.JWT;
 using EasyBank.Models;
@@ -11,36 +12,20 @@ using System.Security.Claims;
 
 namespace EasyBank.Services
 {
-    public class EmployeeAuthService : Controller
+    public class AuthService : Controller
     {
-        public readonly AppDbContext _context;
-        public readonly IPasswordHasher<LoginDto> _passwordHasher;
+        private readonly AppDbContext _context;
+        private readonly TokenService _tokenService;
+        private readonly IPasswordHasher<LoginDto> _passwordHasher;
 
-        public EmployeeAuthService(AppDbContext context, IPasswordHasher<LoginDto> passwordHasher)
+        public AuthService(
+            AppDbContext context, 
+            TokenService tokenService,
+            IPasswordHasher<LoginDto> passwordHasher)
         {
             _context = context;
+            _tokenService = tokenService;
             _passwordHasher = passwordHasher;
-        }
-
-        private string CreateToken(Employee employee)
-        {
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Role, employee.Role),
-                new Claim(ClaimTypes.NameIdentifier, employee.Id.ToString())
-            };
-
-            var token = new JwtSecurityToken(
-                issuer: JwtData.ISSUER,
-                audience: JwtData.AUDIENCE,
-                claims: claims,
-                expires: DateTime.Now.AddMinutes(120),
-                signingCredentials: new SigningCredentials(
-                    JwtData.GetSymmetricSecurityKey(),
-                    SecurityAlgorithms.HmacSha256));
-
-            var encodedToken = new JwtSecurityTokenHandler().WriteToken(token);
-            return encodedToken;
         }
 
         public async Task<IActionResult> Login([FromBody] LoginDto employee)
@@ -59,8 +44,12 @@ namespace EasyBank.Services
             if (emp.Password != employee.Password)
                 return BadRequest("Password wrong!");
 
-            var token = CreateToken(emp);
-            return Ok(token);
+            var token = _tokenService.CreateTokens(emp);
+            return Ok(new 
+            { 
+                AccessToken = token.AccessToken, 
+                RefreshToken = token.RefreshToken 
+            });
         }
 
         public async Task<IActionResult> Register([FromBody] RegisterDto employee)

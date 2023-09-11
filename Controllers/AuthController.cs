@@ -1,6 +1,7 @@
 ﻿using EasyBank.DTOs;
 using EasyBank.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace EasyBank.Controllers
 {
@@ -8,11 +9,13 @@ namespace EasyBank.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly EmployeeAuthService _employeeAuthService;
+        private readonly AuthService _employeeAuthService;
+        private readonly TokenService _tokenService;
 
-        public AuthController(EmployeeAuthService employeeAuthService)
+        public AuthController(AuthService employeeAuthService, TokenService tokenService)
         {
             _employeeAuthService = employeeAuthService;
+            _tokenService = tokenService;
         }
 
         [HttpPost("login")]
@@ -25,6 +28,17 @@ namespace EasyBank.Controllers
         public async Task<IActionResult> Register([FromBody] RegisterDto employee)
         {
             return await _employeeAuthService.Register(employee);
+        }
+
+        [HttpPost("refresh")]
+        public IActionResult RefreshToken([FromBody] RefreshTokenDto refreshTokenRequest)
+        {
+            var tokens = _tokenService.RefreshToken(refreshTokenRequest);
+            return Ok(new
+            {
+                AccessToken = tokens.AccessToken,
+                RefreshToken = tokens.NewRefreshToken
+            });
         }
     }
 }

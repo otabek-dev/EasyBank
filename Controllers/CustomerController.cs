@@ -1,5 +1,4 @@
-﻿using EasyBank.DB;
-using EasyBank.DTOs;
+﻿using EasyBank.DTOs;
 using EasyBank.Models;
 using EasyBank.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -25,7 +24,7 @@ namespace EasyBank.Controllers
         [HttpGet("/api/Customers")]
         public async Task<IEnumerable<Customer>> Get()
         {
-            await _historyService.CreateHistoyr(User, 
+            await _historyService.CreateHistoyr(User,
                 OperationType.Customer, OperationDescription.ReadCustomer);
 
             var customers = await _customerService.GetCustomers();
@@ -36,7 +35,7 @@ namespace EasyBank.Controllers
         [HttpGet("{id}")]
         public async Task<Customer> Get(Guid id)
         {
-            await _historyService.CreateHistoyr(User, 
+            await _historyService.CreateHistoyr(User,
                 OperationType.Customer, OperationDescription.ReadCustomer);
 
             var customer = await _customerService.GetCustomerById(id);
@@ -47,7 +46,7 @@ namespace EasyBank.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] CustomerDto model)
         {
-            await _historyService.CreateHistoyr(User, 
+            await _historyService.CreateHistoyr(User,
                 OperationType.Customer, OperationDescription.CreateCustomer);
 
             var newCustomer = await _customerService.CreateCustomer(model);

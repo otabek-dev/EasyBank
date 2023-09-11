@@ -57,10 +57,11 @@ namespace EasyBank.DI
         public static void ScopedInjections(this IServiceCollection services, WebApplicationBuilder builder)
         {
             builder.Services.AddScoped<EmployeeService>();
-            builder.Services.AddScoped<EmployeeAuthService>();
+            builder.Services.AddScoped<AuthService>();
             builder.Services.AddScoped<CardService>();
             builder.Services.AddScoped<HistoryService>();
             builder.Services.AddScoped<CustomerService>();
+            builder.Services.AddScoped<TokenService>();
 
             builder.Services.AddScoped<IPasswordHasher<LoginDto>, PasswordHasher<LoginDto>>();
         }

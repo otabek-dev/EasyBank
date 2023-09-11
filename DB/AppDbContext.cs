@@ -13,9 +13,16 @@ namespace EasyBank.DB
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Card> Cards { get; set; }
         public DbSet<History> History { get; set; }
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<History>()
+                .HasOne(h => h.Employee)
+                .WithMany(e => e.History)
+                .HasForeignKey(h => h.EmployeeId)
+                .OnDelete(DeleteBehavior.NoAction);
+
             new AppDbConfig(modelBuilder).Configure();
         }
     }
