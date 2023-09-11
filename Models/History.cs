@@ -13,5 +13,4 @@ namespace EasyBank.Models
         public Employee? Employee { get; set; }
         public Guid? EmployeeId { get; set; }
     }
-
 }

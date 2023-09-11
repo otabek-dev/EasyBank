@@ -2,12 +2,14 @@
 using EasyBank.DTOs;
 using EasyBank.Models;
 using EasyBank.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EasyBank.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "Admin,Director,Employee")]
     public class CustomerController : ControllerBase
     {
         private readonly CustomerService _customerService;
@@ -20,7 +22,7 @@ namespace EasyBank.Controllers
         }
 
         // GET: api/<CustomerController>
-        [HttpGet]
+        [HttpGet("/api/Customers")]
         public async Task<IEnumerable<Customer>> Get()
         {
             await _historyService.CreateHistoyr(User, 

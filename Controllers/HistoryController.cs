@@ -1,11 +1,13 @@
 ﻿using EasyBank.DB;
 using EasyBank.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EasyBank.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "Director")]
     public class HistoryController : ControllerBase
     {
         private readonly AppDbContext _context;

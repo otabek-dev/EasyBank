@@ -20,7 +20,7 @@ namespace EasyBank.Controllers
         }
 
         // GET: api/<Employee>
-        [HttpGet]
+        [HttpGet("/api/Employees")]
         [Authorize(Roles = "Admin,Director")]
         public async Task<IEnumerable<Employee>> Get()
         {
