@@ -60,6 +60,7 @@ namespace EasyBank.DI
             builder.Services.AddScoped<EmployeeAuthService>();
             builder.Services.AddScoped<CardService>();
             builder.Services.AddScoped<HistoryService>();
+            builder.Services.AddScoped<CustomerService>();
 
             builder.Services.AddScoped<IPasswordHasher<LoginDto>, PasswordHasher<LoginDto>>();
         }

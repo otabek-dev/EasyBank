@@ -3,8 +3,6 @@ using EasyBank.DTOs;
 using EasyBank.Models;
 using EasyBank.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Security.Claims;
 
 namespace EasyBank.Controllers
 {
@@ -12,72 +10,53 @@ namespace EasyBank.Controllers
     [ApiController]
     public class CustomerController : ControllerBase
     {
-        private readonly AppDbContext _context;
-        private readonly HistoryService _historyService;
+        private readonly CustomerService _customerService;
 
-        public CustomerController(AppDbContext context, HistoryService historyService)
+        public CustomerController(CustomerService customerService)
         {
-            _context = context;
-            _historyService = historyService;
+            _customerService = customerService;
         }
 
         // GET: api/<CustomerController>
         [HttpGet]
         public async Task<IEnumerable<Customer>> Get()
         {
-            await _historyService.CreateHistoyr(User, "get all");
+            //await _historyService.CreateHistoyr(User, "get all");
 
-            return await _context.Customers.ToListAsync();
+            var customers = await _customerService.GetCustomers();
+            return customers;
         }
 
         // GET api/<CustomerController>/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(Guid id)
+        public async Task<Customer> Get(Guid id)
         {
-            var customer = await _context.Customers.FindAsync(id);
-            if (customer == null) return Ok("User not found!");
-            _context.Cards.Where(x => x.CustomerId == customer.Id).Load();
-            return Ok(customer);
+            var customer = await _customerService.GetCustomerById(id);
+            return customer;
         }
 
         // POST api/<CustomerController>
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] CustomerDto model)
         {
-            var customer = new Customer
-            {
-                Id = Guid.NewGuid(),
-                Address = model.Address,
-                FullName = model.FullName
-            };
-
-            await _context.Customers.AddAsync(customer);
-            await _context.SaveChangesAsync();
-            return Ok(customer);
+            var newCustomer = await _customerService.CreateCustomer(model);
+            return Ok(newCustomer);
         }
 
         // PUT api/<CustomerController>/5
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(Guid id, [FromBody] CustomerDto model)
         {
-            var customer = await _context.Customers.FindAsync(id);
-            if (customer == null) return Ok("Customer not found!");
-
-            var entry = _context.Entry(customer);
-            entry.CurrentValues.SetValues(model);
-            await _context.SaveChangesAsync();
-            return Ok("Customer updated!");
+            var updCustomer = await _customerService.UpdateCustomer(id, model);
+            return Ok(updCustomer);
         }
 
         // DELETE api/<CustomerController>/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
-            var customer = await _context.Customers.FindAsync(id);
-            if (customer is null) return Ok("Customer not found!");
-            _context.Customers.Remove(customer);
-            await _context.SaveChangesAsync();
-            return Ok("Customer deleted!");
+            await _customerService.DeleteCustomer(id);
+            return Ok();
         }
     }
 }
