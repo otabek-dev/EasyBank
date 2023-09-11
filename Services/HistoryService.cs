@@ -15,22 +15,26 @@ namespace EasyBank.Services
             _context = context;
         }
 
-        public async Task CreateHistoyr(ClaimsPrincipal user, string operationType)
+        private async Task<Employee> GetEmployee(ClaimsPrincipal user)
         {
             var employeeId = Guid.Empty;
             Guid.TryParse(user.FindFirstValue(ClaimTypes.NameIdentifier), out employeeId);
             var employee = await _context.Employees.FindAsync(employeeId);
+            return employee;
+        }
+
+        public async Task CreateHistoyr(ClaimsPrincipal user, string operationType)
+        {
+            var employee = await GetEmployee(user);
             if (employee == null)
                 return;
 
-            var faker = new Bogus.Faker();
             var history = new History
             {
                 Id = Guid.NewGuid(),
                 Timestamp = DateTime.UtcNow,
                 OperationType = operationType,
-                OperatorId = faker.Random.Uuid().ToString(),
-                EmployeeId = employeeId
+                EmployeeId = employee.Id
             };
 
             await _context.History.AddAsync(history);

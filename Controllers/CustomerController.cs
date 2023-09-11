@@ -11,17 +11,19 @@ namespace EasyBank.Controllers
     public class CustomerController : ControllerBase
     {
         private readonly CustomerService _customerService;
+        private readonly HistoryService _historyService;
 
-        public CustomerController(CustomerService customerService)
+        public CustomerController(CustomerService customerService, HistoryService historyService)
         {
             _customerService = customerService;
+            _historyService = historyService;
         }
 
         // GET: api/<CustomerController>
         [HttpGet]
         public async Task<IEnumerable<Customer>> Get()
         {
-            //await _historyService.CreateHistoyr(User, "get all");
+            await _historyService.CreateHistoyr(User, "get all");
 
             var customers = await _customerService.GetCustomers();
             return customers;
@@ -31,6 +33,8 @@ namespace EasyBank.Controllers
         [HttpGet("{id}")]
         public async Task<Customer> Get(Guid id)
         {
+            await _historyService.CreateHistoyr(User, "GetCustomerById");
+
             var customer = await _customerService.GetCustomerById(id);
             return customer;
         }
@@ -39,6 +43,8 @@ namespace EasyBank.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] CustomerDto model)
         {
+            await _historyService.CreateHistoyr(User, "CreateCustomer");
+
             var newCustomer = await _customerService.CreateCustomer(model);
             return Ok(newCustomer);
         }
@@ -47,6 +53,7 @@ namespace EasyBank.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(Guid id, [FromBody] CustomerDto model)
         {
+            await _historyService.CreateHistoyr(User, "UpdateCustomer");
             var updCustomer = await _customerService.UpdateCustomer(id, model);
             return Ok(updCustomer);
         }
@@ -55,6 +62,7 @@ namespace EasyBank.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
+            await _historyService.CreateHistoyr(User, "DeleteCustomer");
             await _customerService.DeleteCustomer(id);
             return Ok();
         }

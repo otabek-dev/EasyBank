@@ -6,8 +6,8 @@ namespace EasyBank.Models
     {
         public Guid Id { get; set; }
         public DateTime Timestamp { get; set; }
-        public required string OperationType { get; set; }
-        public required string OperatorId { get; set; }
+        public required OperationType OperationType { get; set; }
+        public required OperationDescription OperationDescription { get; set; }
         
         [JsonIgnore]
         public Employee? Employee { get; set; }

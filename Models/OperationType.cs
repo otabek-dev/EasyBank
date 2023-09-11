@@ -2,10 +2,8 @@
 {
     public enum OperationType
     {
-        Create,
-        Update, 
-        Delete,
-        Read,
+        Card,
+        Customer,
         Other
     }
 }
