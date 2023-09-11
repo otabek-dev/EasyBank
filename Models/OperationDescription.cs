@@ -6,6 +6,8 @@
         ReadCard,
         UpdateCard,
         DeleteCard,
+        BlockCard,
+        UnBlockCard,
         OtherCardOperation,
         CreateCustomer,
         ReadCustomer,
