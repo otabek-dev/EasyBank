@@ -23,7 +23,10 @@ namespace EasyBank.Services
             return employee;
         }
 
-        public async Task CreateHistoyr(ClaimsPrincipal user, string operationType)
+        public async Task CreateHistoyr(
+            ClaimsPrincipal user, 
+            OperationType operationType,
+            OperationDescription operationDescription)
         {
             var employee = await GetEmployee(user);
             if (employee == null)
@@ -34,6 +37,7 @@ namespace EasyBank.Services
                 Id = Guid.NewGuid(),
                 Timestamp = DateTime.UtcNow,
                 OperationType = operationType,
+                OperationDescription = operationDescription,
                 EmployeeId = employee.Id
             };
 
