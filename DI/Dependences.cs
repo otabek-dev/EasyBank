@@ -11,9 +11,10 @@ namespace EasyBank.DI
 {
     public static class Dependences
     {
-        public static void AuthConfig(this IServiceCollection services, WebApplicationBuilder builder)
+        public static void AuthConfig(this IServiceCollection services, 
+            WebApplicationBuilder builder)
         {
-            builder.Services.AddSwaggerGen(c =>
+            services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Easy bank", Version = "v1" });
 
@@ -39,7 +40,7 @@ namespace EasyBank.DI
                 });
             });
 
-            builder.Services.AddAuthentication().AddJwtBearer(options =>
+            services.AddAuthentication().AddJwtBearer(options =>
             {
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
@@ -54,21 +55,23 @@ namespace EasyBank.DI
             });
         }
 
-        public static void ScopedInjections(this IServiceCollection services, WebApplicationBuilder builder)
+        public static void ScopedInjections(this IServiceCollection services, 
+            WebApplicationBuilder builder)
         {
-            builder.Services.AddScoped<EmployeeService>();
-            builder.Services.AddScoped<AuthService>();
-            builder.Services.AddScoped<CardService>();
-            builder.Services.AddScoped<HistoryService>();
-            builder.Services.AddScoped<CustomerService>();
-            builder.Services.AddScoped<TokenService>();
+            services.AddScoped<EmployeeService>();
+            services.AddScoped<AuthService>();
+            services.AddScoped<CardService>();
+            services.AddScoped<HistoryService>();
+            services.AddScoped<CustomerService>();
+            services.AddScoped<TokenService>();
 
-            builder.Services.AddScoped<IPasswordHasher<LoginDto>, PasswordHasher<LoginDto>>();
+            services.AddScoped<IPasswordHasher<LoginDto>, PasswordHasher<LoginDto>>();
         }
 
-        public static void DBInjections(this IServiceCollection services, WebApplicationBuilder builder)
+        public static void DBInjections(this IServiceCollection services, 
+            WebApplicationBuilder builder)
         {
-            builder.Services.AddDbContext<AppDbContext>(options =>
+            services.AddDbContext<AppDbContext>(options =>
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("EasyBankDB"));
             });

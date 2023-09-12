@@ -1,25 +1,20 @@
-﻿using Azure.Core;
-using EasyBank.DB;
+﻿using EasyBank.DB;
 using EasyBank.DTOs;
-using EasyBank.JWT;
 using EasyBank.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
 
 namespace EasyBank.Services
 {
-    public class AuthService : Controller
+    public class AuthService
     {
         private readonly AppDbContext _context;
         private readonly TokenService _tokenService;
         private readonly IPasswordHasher<LoginDto> _passwordHasher;
 
         public AuthService(
-            AppDbContext context, 
+            AppDbContext context,
             TokenService tokenService,
             IPasswordHasher<LoginDto> passwordHasher)
         {
@@ -28,31 +23,26 @@ namespace EasyBank.Services
             _passwordHasher = passwordHasher;
         }
 
-        public async Task<IActionResult> Login([FromBody] LoginDto employee)
+        public async Task<TokensDto> Login(LoginDto employee)
         {
             var emp = await _context.Employees.SingleOrDefaultAsync(e => e.Email == employee.Email);
             if (emp is null)
-            {
-                return BadRequest("User nut found!");
-            }
+                return null; //"User nut found!"
+
             /*HashPassword
             //var verifPassword = _passwordHasher.VerifyHashedPassword(employee, emp.Password, employee.Password);
             //if (verifPassword == PasswordVerificationResult.Failed)
             //    return BadRequest("Email or password wrong!");
             */
-            
-            if (emp.Password != employee.Password)
-                return BadRequest("Password wrong!");
 
-            var token = _tokenService.CreateTokens(emp);
-            return Ok(new 
-            { 
-                AccessToken = token.AccessToken, 
-                RefreshToken = token.RefreshToken 
-            });
+            if (emp.Password != employee.Password)
+                return null; //"Password wrong!"
+
+            var tokens = await _tokenService.CreateTokens(emp);
+            return tokens;
         }
 
-        public async Task<IActionResult> Register([FromBody] RegisterDto employee)
+        public async Task<string> Register([FromBody] RegisterDto employee)
         {
             /*HashPassword
             //var loginDto = new LoginDto()
@@ -63,12 +53,12 @@ namespace EasyBank.Services
 
             //var passwordHash = _passwordHasher.HashPassword(loginDto, loginDto.Password);
             */
-            
+
             var findEmployeeByEmail = await _context.Employees
                 .FirstOrDefaultAsync(e => e.Email == employee.Email);
-            
+
             if (findEmployeeByEmail != null)
-                return BadRequest("Email already exist!");
+                return "Email already exist!";
 
             var emp = new Employee()
             {
@@ -83,7 +73,7 @@ namespace EasyBank.Services
 
             await _context.Employees.AddAsync(emp);
             await _context.SaveChangesAsync();
-            return Ok();
+            return "Account created!";
         }
     }
 }

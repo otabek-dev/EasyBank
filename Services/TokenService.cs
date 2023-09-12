@@ -2,6 +2,7 @@
 using EasyBank.DTOs;
 using EasyBank.JWT;
 using EasyBank.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -18,7 +19,29 @@ namespace EasyBank.Services
             _context = context;
         }
 
-        public (string AccessToken, string RefreshToken) CreateTokens(Employee employee)
+        private string GenerateRefreshToken()
+        {
+            var randomNumber = new byte[32];
+            using (var rng = RandomNumberGenerator.Create())
+            {
+                rng.GetBytes(randomNumber);
+                return Convert.ToBase64String(randomNumber);
+            }
+        }
+
+        private async Task RemoveExpiredRefreshTokens()
+        {
+            var currentTime = DateTime.UtcNow;
+
+            var expiredTokens = await _context.RefreshTokens
+                .Where(rt => rt.Expires < currentTime)
+                .ToListAsync();
+
+            _context.RefreshTokens.RemoveRange(expiredTokens);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<TokensDto> CreateTokens(Employee employee)
         {
             var claims = new List<Claim>
             {
@@ -44,57 +67,36 @@ namespace EasyBank.Services
                 EmployeeId = employee.Id.ToString()
             };
 
-            // Сохраните refresh token в базу данных или другое хранилище
-            _context.RefreshTokens.Add(refreshToken);
-            _context.SaveChanges();
+            await _context.RefreshTokens.AddAsync(refreshToken);
+            await _context.SaveChangesAsync();
 
-            return (encodedAccessToken, refreshToken.Token);
+            return new TokensDto { Token = encodedAccessToken, RefreshToken = refreshToken.Token };
         }
 
-        private string GenerateRefreshToken()
+        public async Task<TokensDto> RefreshToken(RefreshTokenDto refreshTokenRequest)
         {
-            var randomNumber = new byte[32];
-            using (var rng = RandomNumberGenerator.Create())
-            {
-                rng.GetBytes(randomNumber);
-                return Convert.ToBase64String(randomNumber);
-            }
-        }
+            var userId = GetUserIdFromToken(refreshTokenRequest.Token);
+            if (userId is null) return new();
 
-        public (string AccessToken, string NewRefreshToken) RefreshToken(RefreshTokenDto refreshTokenRequest)
-        {
-            var userId = GetUserIdFromExpiredToken(refreshTokenRequest.Token);
-
-            // Валидируйте refresh token
             var storedRefreshToken = _context.RefreshTokens
-                .FirstOrDefault(t => t.EmployeeId == userId && t.Token == refreshTokenRequest.RefreshToken);
+                .FirstOrDefault(t => t.EmployeeId == userId 
+                && t.Token == refreshTokenRequest.RefreshToken);
+            if (storedRefreshToken == null) return new();
 
-            if (storedRefreshToken == null)
-            {
-                return (null, null);
-            }
-
-            // Удалите старый refresh token
             _context.RefreshTokens.Remove(storedRefreshToken);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
-            // Генерируйте новый access token и refresh token
-
-            var emplpyee = _context.Employees.Find(Guid.Parse(userId));
-            var (accessToken, newRefreshToken) =
-                CreateTokens(emplpyee);
-
-            return new()
-            {
-                AccessToken = accessToken,
-                NewRefreshToken = newRefreshToken
-            };
+            var emplpyee = await _context.Employees.FindAsync(Guid.Parse(userId));
+            if(emplpyee is null) return new();
+            
+            var tokens = await CreateTokens(emplpyee);
+            return new TokensDto { Token = tokens.Token, RefreshToken = tokens.RefreshToken};
         }
 
-        public string GetUserIdFromExpiredToken(string expiredToken)
+        public string? GetUserIdFromToken(string userToken)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var token = tokenHandler.ReadJwtToken(expiredToken);
+            var token = tokenHandler.ReadJwtToken(userToken);
             return token.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
         }
     }
