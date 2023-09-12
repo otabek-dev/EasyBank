@@ -1,12 +1,14 @@
 ﻿using EasyBank.DTOs;
 using EasyBank.Models;
 using EasyBank.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EasyBank.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "Admin,Director,Employee")]
     public class CardController : ControllerBase
     {
         private readonly CardService _cardService;

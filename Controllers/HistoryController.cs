@@ -7,7 +7,7 @@ namespace EasyBank.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Director")]
+    [Authorize(Roles = "Admin,Director")]
     public class HistoryController : ControllerBase
     {
         private readonly AppDbContext _context;

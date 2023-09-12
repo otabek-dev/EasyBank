@@ -9,7 +9,7 @@ using Microsoft.OpenApi.Models;
 
 namespace EasyBank.DI
 {
-    public static class Dependences
+    public static class Dependencies
     {
         public static void AuthConfig(this IServiceCollection services, 
             WebApplicationBuilder builder)
@@ -58,12 +58,13 @@ namespace EasyBank.DI
         public static void ScopedInjections(this IServiceCollection services, 
             WebApplicationBuilder builder)
         {
-            services.AddScoped<EmployeeService>();
             services.AddScoped<AuthService>();
+            services.AddScoped<TokenService>();
+            services.AddScoped<EmployeeService>();
+            services.AddScoped<CustomerService>();
             services.AddScoped<CardService>();
             services.AddScoped<HistoryService>();
-            services.AddScoped<CustomerService>();
-            services.AddScoped<TokenService>();
+            services.AddScoped<ReportService>();
 
             services.AddScoped<IPasswordHasher<LoginDto>, PasswordHasher<LoginDto>>();
         }
