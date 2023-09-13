@@ -32,3 +32,9 @@
    - Block/unblock a customer's card.
    - Deactivate a customer's card.
 6. Record all customer and card operations in the History table, including the operation type, operator ID and timestamp.
+---
+### Implement an EndPoint for Directors to Generate Employee Performance Reports
+1. Create an EndPoint for directors that allows them to generate reports on employee performance.
+2. The report should include the following information:
+   - The quantity and type of operations performed by the selected employee.
+   - Breakdown of operations by their execution dates.
