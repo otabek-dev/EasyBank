@@ -75,6 +75,7 @@ namespace EasyBank.DI
             services.AddDbContext<AppDbContext>(options =>
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("EasyBankDB"));
+                //options.UseNpgsql(builder.Configuration.GetConnectionString("EasyBankDB"));
             });
         }
     }
