@@ -21,6 +21,10 @@ namespace EasyBank.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginDto employee)
         {
+            //if (!ModelState.IsValid) {
+            //    throw new Exception("Wrong!");
+            //}
+            
             var tokens = await _employeeAuthService.Login(employee);
             return Ok(tokens);
         }

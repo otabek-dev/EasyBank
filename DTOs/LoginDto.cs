@@ -1,4 +1,6 @@
-﻿namespace EasyBank.DTOs
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace EasyBank.DTOs
 {
     public class LoginDto
     {

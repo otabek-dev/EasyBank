@@ -1,7 +1,6 @@
 ﻿using EasyBank.DB;
 using EasyBank.DTOs;
 using EasyBank.Models;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace EasyBank.Services
@@ -19,11 +18,11 @@ namespace EasyBank.Services
         {
             var operations = _context.History
                 .Where(x => x.EmployeeId == reportDto.EmployeeId
-                    && x.Timestamp >= reportDto.StartDate
-                    && x.Timestamp <= reportDto.EndDate);
+                    && x.Timestamp >= reportDto.StartDate.ToUniversalTime()
+                    && x.Timestamp <= reportDto.EndDate.ToUniversalTime());
 
             var groupedOperations = await operations
-                .GroupBy(x => new { x.OperationType, x.Timestamp.Date })
+                .GroupBy(x => new { x.OperationType, x.Timestamp.ToUniversalTime().Date })
                 .Select(group => new
                 {
                     OperationType = group.Key.OperationType,
@@ -33,7 +32,7 @@ namespace EasyBank.Services
                 .ToListAsync();
 
             var info = groupedOperations.Select(item =>
-                $"{item.OperationType.ToString()}: {item.Count} операций ({item.Date:yyyy-MM-dd})");
+                $"{item.OperationType}: {item.Count} операций ({item.Date:yyyy-MM-dd})");
 
             var report = new Report()
             {

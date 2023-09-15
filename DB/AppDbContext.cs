@@ -17,11 +17,11 @@ namespace EasyBank.DB
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<History>()
-                .HasOne(h => h.Employee)
-                .WithMany(e => e.History)
+            modelBuilder.Entity<Employee>()
+                .HasMany(e => e.History)
+                .WithOne(h => h.Employee)
                 .HasForeignKey(h => h.EmployeeId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Cascade);
 
             new AppDbConfig(modelBuilder).Configure();
         }

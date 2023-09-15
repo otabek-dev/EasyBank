@@ -7,7 +7,5 @@
         public required string Address { get; set; }
 
         public List<Card> Cards { get; set; } = new();
-
-        public List<History> CustomerHistory { get; set; } = new();
     }
 }

@@ -12,7 +12,5 @@ namespace EasyBank.Models
         [JsonIgnore]
         public Customer? Customer { get; set; }
         public Guid CustomerId { get; set; }
-
-        public List<History> CardHistory { get; set; } = new();
     }
 }

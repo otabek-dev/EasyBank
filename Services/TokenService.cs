@@ -63,7 +63,7 @@ namespace EasyBank.Services
             var refreshToken = new RefreshToken
             {
                 Token = GenerateRefreshToken(),
-                Expires = DateTime.Now.AddDays(2),
+                Expires = DateTime.UtcNow.AddDays(2),
                 EmployeeId = employee.Id.ToString()
             };
 
