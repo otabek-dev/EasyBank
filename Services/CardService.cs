@@ -1,12 +1,13 @@
 ﻿using EasyBank.DB;
 using EasyBank.DTOs;
 using EasyBank.Models;
+using EasyBank.Results;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace EasyBank.Services
 {
-    public class CardService : Controller
+    public class CardService
     {
         private readonly AppDbContext _context;
 
@@ -15,16 +16,16 @@ namespace EasyBank.Services
             _context = context;
         }
 
-        public async Task<IActionResult> GetCardById(Guid id)
+        public async Task<Result> GetCardById(Guid id)
         {
             var card = await _context.Cards.FirstOrDefaultAsync(e => e.Id == id);
             if (card is null)
-                return Ok("Card nut found!");
+                return new Result(false, "Card nut found!");
 
-            return Ok(card);
+            return new DataResult<Card>(card);
         }
 
-        public async Task<IActionResult> CreateCard(Guid customerId)
+        public async Task<Result> CreateCard(Guid customerId)
         {
             var faker = new Bogus.Faker();
 
@@ -38,52 +39,52 @@ namespace EasyBank.Services
 
             await _context.AddAsync(card);
             await _context.SaveChangesAsync();
-            return Ok("Card created!");
+            return new Result(true, "Card created!");
         }
 
-        public async Task<IActionResult> UpdateCard(Guid id, CardDto model)
+        public async Task<Result> UpdateCard(Guid id, CardDto model)
         {
             var card = await _context.Cards.FirstOrDefaultAsync(e => e.Id == id);
             if (card is null)
-                return NotFound("Card nut found!");
+                return new Result(false, "Card nut found!");
 
             var entry = _context.Entry(card);
             entry.CurrentValues.SetValues(model);
             await _context.SaveChangesAsync();
-            return Ok("Card updated!");
+            return new Result(true, "Card updated!");
         }
 
-        public async Task<IActionResult> BlockCard(Guid id)
+        public async Task<Result> BlockCard(Guid id)
         {
             var card = await _context.Cards.FirstOrDefaultAsync(e => e.Id == id);
             if (card is null)
-                return NotFound("Card nut found!");
+                return new Result(false, "Card nut found!");
 
             card.IsBlocked = true;
             await _context.SaveChangesAsync();
-            return Ok("Card blocked!");
+            return new Result(true, "Card blocked!");
         }
 
-        public async Task<IActionResult> UnBlockCard(Guid id)
+        public async Task<Result> UnBlockCard(Guid id)
         {
             var card = await _context.Cards.FirstOrDefaultAsync(e => e.Id == id);
             if (card is null)
-                return NotFound("Card nut found!");
+                return new Result(false, "Card nut found!");
 
             card.IsBlocked = false;
             await _context.SaveChangesAsync();
-            return Ok("Card unBlocked!");
+            return new Result(true, "Card unBlocked!");
         }
 
-        public async Task<IActionResult> DeleteCard(Guid id)
+        public async Task<Result> DeleteCard(Guid id)
         {
             var card = await _context.Cards.FirstOrDefaultAsync(e => e.Id == id);
             if (card is null)
-                return NotFound("Card nut found!");
+                return new Result(false, "Card nut found!");
 
             _context.Cards.Remove(card);
             await _context.SaveChangesAsync();
-            return Ok("Card deleted!");
+            return new Result(true, "Card deleted!");
         }
     }
 }

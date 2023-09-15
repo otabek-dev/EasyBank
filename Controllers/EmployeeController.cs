@@ -1,6 +1,4 @@
-﻿using EasyBank.DB;
-using EasyBank.DTOs;
-using EasyBank.Models;
+﻿using EasyBank.DTOs;
 using EasyBank.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -22,9 +20,10 @@ namespace EasyBank.Controllers
         // GET: api/<Employee>
         [HttpGet("/api/Employees")]
         [Authorize(Roles = "Admin,Director")]
-        public async Task<IEnumerable<Employee>> Get()
+        public async Task<IActionResult> Get()
         {
-            return await _employeeService.GetAllEmployee();
+            var employees = await _employeeService.GetAllEmployee();
+            return Ok(employees);
         }
 
         // GET api/<Employee>/5
@@ -32,7 +31,8 @@ namespace EasyBank.Controllers
         [Authorize(Roles = "Admin,Director")]
         public async Task<IActionResult> Get(Guid id)
         {
-            return await _employeeService.GetEmployeeById(id);
+            var employee = await _employeeService.GetEmployeeById(id);
+            return Ok(employee);
         }
 
         // POST api/<Employee>
@@ -40,15 +40,17 @@ namespace EasyBank.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Post([FromBody] EmployeeDto employee)
         {
-            return await _employeeService.CreateEmployee(employee);
+            var result = await _employeeService.CreateEmployee(employee);
+            return Ok(result);
         }
-        
+
         // PUT api/<Employee>/5
         [HttpPut("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Put(Guid id, [FromBody] EmployeeDto emp)
         {
-            return await _employeeService.UpdateEmployee(id, emp);
+            var result = await _employeeService.UpdateEmployee(id, emp);
+            return Ok(result);
         }
 
         // DELETE api/<Employee>/5
@@ -56,7 +58,8 @@ namespace EasyBank.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(Guid id)
         {
-            return await _employeeService.DeleteEmployee(id);
+            var result = await _employeeService.DeleteEmployee(id);
+            return Ok(result);
         }
     }
 }

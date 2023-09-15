@@ -22,8 +22,8 @@ namespace EasyBank.Controllers
         [HttpPost]
         public async Task<IActionResult> Post(ReportDto reportDto)
         {
-            var report = await _reportService.CreateReport(reportDto);
-            return Ok(report);
+            var result = await _reportService.CreateReport(reportDto);
+            return Ok(result);
         }
     }
 }

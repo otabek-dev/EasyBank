@@ -1,5 +1,6 @@
 ﻿using EasyBank.DTOs;
 using EasyBank.Models;
+using EasyBank.Results;
 using EasyBank.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -27,7 +28,8 @@ namespace EasyBank.Controllers
             await _historyService.CreateHistoyr(User,
                OperationType.Card, OperationDescription.ReadCard);
 
-            return await _cardService.GetCardById(id);
+            var card = await _cardService.GetCardById(id);
+            return Ok(card);
         }
 
         // POST api/<CardController>
@@ -37,7 +39,8 @@ namespace EasyBank.Controllers
             await _historyService.CreateHistoyr(User,
                OperationType.Card, OperationDescription.CreateCard);
 
-            return await _cardService.CreateCard(customerId);
+            var result = await _cardService.CreateCard(customerId);
+            return Ok(result);
         }
 
         // PUT api/<CardController>/5
@@ -47,7 +50,8 @@ namespace EasyBank.Controllers
             await _historyService.CreateHistoyr(User,
                OperationType.Card, OperationDescription.UpdateCard);
 
-            return await _cardService.UpdateCard(id, model);
+            var result = await _cardService.UpdateCard(id, model);
+            return Ok(result);
         }
 
         // PUT api/<CardController>/5
@@ -57,7 +61,8 @@ namespace EasyBank.Controllers
             await _historyService.CreateHistoyr(User,
                OperationType.Card, OperationDescription.BlockCard);
 
-            return await _cardService.BlockCard(id);
+            var result = await _cardService.BlockCard(id);
+            return Ok(result);
         }
 
         // PUT api/<CardController>/5
@@ -67,7 +72,8 @@ namespace EasyBank.Controllers
             await _historyService.CreateHistoyr(User,
                OperationType.Card, OperationDescription.UnBlockCard);
 
-            return await _cardService.UnBlockCard(id);
+            var result = await _cardService.UnBlockCard(id);
+            return Ok(result);
         }
 
         // DELETE api/<CardController>/5
@@ -77,7 +83,8 @@ namespace EasyBank.Controllers
             await _historyService.CreateHistoyr(User,
                OperationType.Card, OperationDescription.DeleteCard);
 
-            return await _cardService.DeleteCard(id);
+            var result = await _cardService.DeleteCard(id);
+            return Ok(result);
         }
     }
 }

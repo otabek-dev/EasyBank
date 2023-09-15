@@ -1,5 +1,6 @@
 ﻿using EasyBank.DB;
 using EasyBank.Models;
+using EasyBank.Results;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,9 +20,10 @@ namespace EasyBank.Controllers
 
         // GET: api/<HistoryController>
         [HttpGet]
-        public IEnumerable<History> Get()
+        public DataResult<List<History>> Get()
         {
-            return _context.History.ToList();
+            var result = _context.History.ToList();
+            return new DataResult<List<History>>(result);
         }
     }
 }

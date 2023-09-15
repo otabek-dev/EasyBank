@@ -1,12 +1,13 @@
 ﻿using EasyBank.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace EasyBank.DTOs
 {
     public class ReportDto
     {
-        public Guid EmployeeId { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
+        public required Guid EmployeeId { get; set; }
+        public required DateTime StartDate { get; set; }
+        public required DateTime EndDate { get; set; }
        
     }
 }

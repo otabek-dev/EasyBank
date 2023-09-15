@@ -1,6 +1,7 @@
 ﻿using EasyBank.DB;
 using EasyBank.DTOs;
 using EasyBank.Models;
+using EasyBank.Results;
 using Microsoft.EntityFrameworkCore;
 
 namespace EasyBank.Services
@@ -14,7 +15,7 @@ namespace EasyBank.Services
             _context = context;
         }
 
-        public async Task<Report> CreateReport(ReportDto reportDto)
+        public async Task<Result> CreateReport(ReportDto reportDto)
         {
             var operations = _context.History
                 .Where(x => x.EmployeeId == reportDto.EmployeeId
@@ -36,14 +37,13 @@ namespace EasyBank.Services
 
             var report = new Report()
             {
-                Id = Guid.NewGuid(),
                 EmployeeId = reportDto.EmployeeId,
                 StartDate = reportDto.StartDate,
                 EndDate = reportDto.EndDate,
-                OperationInfo = string.Join("\n", info)
+                OperationInfo = string.Join("\n\t", info)
             };
 
-            return report;
+            return new DataResult<Report>(report);
         }
     }
 }

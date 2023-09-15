@@ -22,24 +22,24 @@ namespace EasyBank.Controllers
 
         // GET: api/<CustomerController>
         [HttpGet("/api/Customers")]
-        public async Task<IEnumerable<Customer>> Get()
+        public async Task<IActionResult> Get()
         {
             await _historyService.CreateHistoyr(User,
                 OperationType.Customer, OperationDescription.ReadCustomer);
 
             var customers = await _customerService.GetCustomers();
-            return customers;
+            return Ok(customers);
         }
 
         // GET api/<CustomerController>/5
         [HttpGet("{id}")]
-        public async Task<Customer> Get(Guid id)
+        public async Task<IActionResult> Get(Guid id)
         {
             await _historyService.CreateHistoyr(User,
                 OperationType.Customer, OperationDescription.ReadCustomer);
 
             var customer = await _customerService.GetCustomerById(id);
-            return customer;
+            return Ok(customer);
         }
 
         // POST api/<CustomerController>

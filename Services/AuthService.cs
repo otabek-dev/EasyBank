@@ -1,6 +1,7 @@
 ﻿using EasyBank.DB;
 using EasyBank.DTOs;
 using EasyBank.Models;
+using EasyBank.Results;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -23,11 +24,11 @@ namespace EasyBank.Services
             _passwordHasher = passwordHasher;
         }
 
-        public async Task<TokensDto> Login(LoginDto employee)
+        public async Task<Result> Login(LoginDto employee)
         {
             var emp = await _context.Employees.SingleOrDefaultAsync(e => e.Email == employee.Email);
             if (emp is null)
-                return null; //"User nut found!"
+                return new Result(false,"User nut found!"); //"User nut found!"
 
             /*HashPassword
             //var verifPassword = _passwordHasher.VerifyHashedPassword(employee, emp.Password, employee.Password);
@@ -36,13 +37,13 @@ namespace EasyBank.Services
             */
 
             if (emp.Password != employee.Password)
-                return null; //"Password wrong!"
+                return new Result(false, "Password wrong!!"); //"Password wrong!"
 
             var tokens = await _tokenService.CreateTokens(emp);
-            return tokens;
+            return new DataResult<TokensDto>(tokens);
         }
 
-        public async Task<string> Register([FromBody] RegisterDto employee)
+        public async Task<Result> Register([FromBody] RegisterDto employee)
         {
             /*HashPassword
             //var loginDto = new LoginDto()
@@ -55,10 +56,10 @@ namespace EasyBank.Services
             */
 
             var findEmployeeByEmail = await _context.Employees
-                .FirstOrDefaultAsync(e => e.Email == employee.Email);
+                .FirstAsync(e => e.Email == employee.Email);
 
             if (findEmployeeByEmail != null)
-                return "Email already exist!";
+                return new Result(true, "Email already exist!");
 
             var emp = new Employee()
             {
@@ -73,7 +74,7 @@ namespace EasyBank.Services
 
             await _context.Employees.AddAsync(emp);
             await _context.SaveChangesAsync();
-            return "Account created!";
+            return new Result(true, "Account created!");
         }
     }
 }
