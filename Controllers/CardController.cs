@@ -34,7 +34,7 @@ namespace EasyBank.Controllers
 
         // POST api/<CardController>
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] Guid customerId)
+        public async Task<IActionResult> Post([FromQuery] Guid customerId)
         {
             await _historyService.CreateHistoyr(User,
                OperationType.Card, OperationDescription.CreateCard);
