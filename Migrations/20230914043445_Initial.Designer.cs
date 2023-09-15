@@ -3,17 +3,17 @@ using System;
 using EasyBank.DB;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
 namespace EasyBank.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230911121619_AddedRefreshTokens")]
-    partial class AddedRefreshTokens
+    [Migration("20230914043445_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -21,29 +21,29 @@ namespace EasyBank.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "7.0.10")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+                .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
             modelBuilder.Entity("EasyBank.Models.Card", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid");
 
                     b.Property<string>("CardNumber")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<Guid>("CustomerId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid");
 
                     b.Property<bool>("IsBlocked")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean");
 
                     b.Property<string>("PinCode")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -54,83 +54,83 @@ namespace EasyBank.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("b3cd6011-640a-4fa2-848b-0877c4671f10"),
-                            CardNumber = "3635-964551-9495",
-                            CustomerId = new Guid("f85c9430-e027-4d7a-9978-1e9eedba21a8"),
+                            Id = new Guid("7463dd7d-3f76-4ffc-b6be-04ec339607c0"),
+                            CardNumber = "3486-709562-87461",
+                            CustomerId = new Guid("dcc390fe-7233-4ba8-9aff-a2fa9f511b50"),
                             IsBlocked = false,
-                            PinCode = "912"
+                            PinCode = "438"
                         },
                         new
                         {
-                            Id = new Guid("5351d3de-0023-423f-aa61-ac9c3a5c3d37"),
-                            CardNumber = "3542-7538-9690-4037",
-                            CustomerId = new Guid("d56ee317-2c0b-467b-adca-430aead0230d"),
+                            Id = new Guid("3ae0a6f0-c46e-463c-9f65-db64c24db4f0"),
+                            CardNumber = "6759-9019-1414-0636",
+                            CustomerId = new Guid("6a70dca6-4e81-4bfb-a763-7d088ca3f405"),
                             IsBlocked = false,
-                            PinCode = "588"
+                            PinCode = "312"
                         },
                         new
                         {
-                            Id = new Guid("95239a29-80e9-4af5-90b2-f91a2f59d825"),
-                            CardNumber = "6387-7868-6679-1977",
-                            CustomerId = new Guid("64a297a4-ca1b-4dd5-bf34-ed06822f0fda"),
+                            Id = new Guid("2782eb2e-4744-49ff-8e17-9d707dfdfad8"),
+                            CardNumber = "5893124714867052821",
+                            CustomerId = new Guid("1d060d87-1651-4019-8120-a9cdbcad4e50"),
                             IsBlocked = false,
-                            PinCode = "116"
+                            PinCode = "244"
                         },
                         new
                         {
-                            Id = new Guid("0c1e7323-1c06-4580-933f-3f91f2bc2af1"),
-                            CardNumber = "5038-8226-9852-9031",
-                            CustomerId = new Guid("9bc7b509-b7bf-456e-ae60-a6f1ed86901f"),
+                            Id = new Guid("a897bbf1-9907-4b30-a820-a856349b897d"),
+                            CardNumber = "6709794349045873164",
+                            CustomerId = new Guid("19afa6e8-5b3b-4457-b20e-59a9e34190cd"),
                             IsBlocked = false,
-                            PinCode = "874"
+                            PinCode = "214"
                         },
                         new
                         {
-                            Id = new Guid("365d3e7f-f509-49f1-92be-b270dade2943"),
-                            CardNumber = "4432-7195-9505-2478",
-                            CustomerId = new Guid("40d2d041-10a1-42e1-aa81-6278272411f1"),
+                            Id = new Guid("bac48d99-713b-4b95-baec-c12380733df2"),
+                            CardNumber = "6767-3351-7440-4774-512",
+                            CustomerId = new Guid("6bcc84a8-c021-4f9f-b547-b68dd5656403"),
                             IsBlocked = false,
-                            PinCode = "991"
+                            PinCode = "141"
                         },
                         new
                         {
-                            Id = new Guid("66396780-1bd7-4ca9-8d64-15ce9084f70e"),
-                            CardNumber = "3054-947317-8887",
-                            CustomerId = new Guid("853cac5e-7d3a-4f35-8909-7a3ed5f87603"),
+                            Id = new Guid("3bd039d9-f447-4a95-99f5-82fef8e4392e"),
+                            CardNumber = "5893-7297-5155-6500",
+                            CustomerId = new Guid("8d322838-0270-45c9-b40b-8c18424aa519"),
                             IsBlocked = false,
-                            PinCode = "900"
+                            PinCode = "906"
                         },
                         new
                         {
-                            Id = new Guid("ee6bbf72-3fef-4958-94d9-279bf062614c"),
-                            CardNumber = "6759-6919-5946-7026-155",
-                            CustomerId = new Guid("51e4e254-5a26-47fe-95db-2fdb4905b952"),
+                            Id = new Guid("bb629707-3bfe-4472-b149-3555656716d8"),
+                            CardNumber = "3491-713085-04280",
+                            CustomerId = new Guid("f17ec1e2-1759-48bd-9090-e6bca65c1883"),
                             IsBlocked = false,
-                            PinCode = "690"
+                            PinCode = "529"
                         },
                         new
                         {
-                            Id = new Guid("57195153-14eb-44b1-8dc3-43220a319808"),
-                            CardNumber = "6706196891326241",
-                            CustomerId = new Guid("0a4ff21e-ff7c-4eeb-ba53-dfede6387a75"),
+                            Id = new Guid("df673b2d-8ca1-4717-9380-070e10be37f3"),
+                            CardNumber = "6706601664241194382",
+                            CustomerId = new Guid("fea4c48e-d307-4e88-8fcf-7f57c3600f9e"),
                             IsBlocked = false,
-                            PinCode = "296"
+                            PinCode = "180"
                         },
                         new
                         {
-                            Id = new Guid("a5baad50-bf91-4174-91f6-7762c470996c"),
-                            CardNumber = "3702-966391-55528",
-                            CustomerId = new Guid("6fd50aee-7bc2-41d8-91dc-0545951f8339"),
+                            Id = new Guid("cc0b6314-af99-4bba-bb3a-e53c034c7204"),
+                            CardNumber = "4701925153461",
+                            CustomerId = new Guid("2841872a-1f16-41b1-8c70-9ec728baf976"),
                             IsBlocked = false,
-                            PinCode = "340"
+                            PinCode = "982"
                         },
                         new
                         {
-                            Id = new Guid("001a9e40-2e2b-43c0-875f-07f8f1e315dc"),
-                            CardNumber = "6379-4415-5537-5571",
-                            CustomerId = new Guid("a5fa41d1-58df-4523-a8a1-9d968f488428"),
+                            Id = new Guid("61cd3c7e-260d-40b2-96a1-6a5e649035ae"),
+                            CardNumber = "6370-1409-2745-9944",
+                            CustomerId = new Guid("eca0bc65-c40d-4e05-a744-c74fce8cb9a6"),
                             IsBlocked = false,
-                            PinCode = "860"
+                            PinCode = "386"
                         });
                 });
 
@@ -138,15 +138,15 @@ namespace EasyBank.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Address")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("FullName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -155,63 +155,63 @@ namespace EasyBank.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("f85c9430-e027-4d7a-9978-1e9eedba21a8"),
-                            Address = "(970) 926-8684 x67123",
-                            FullName = "Clifford Wehner"
+                            Id = new Guid("dcc390fe-7233-4ba8-9aff-a2fa9f511b50"),
+                            Address = "403.217.3445",
+                            FullName = "Dale Dare"
                         },
                         new
                         {
-                            Id = new Guid("d56ee317-2c0b-467b-adca-430aead0230d"),
-                            Address = "691-737-6611",
-                            FullName = "Christie Stokes"
+                            Id = new Guid("6a70dca6-4e81-4bfb-a763-7d088ca3f405"),
+                            Address = "(632) 767-2020 x7497",
+                            FullName = "Leigh Dicki"
                         },
                         new
                         {
-                            Id = new Guid("64a297a4-ca1b-4dd5-bf34-ed06822f0fda"),
-                            Address = "758.786.0436 x3798",
-                            FullName = "Joseph Kiehn"
+                            Id = new Guid("1d060d87-1651-4019-8120-a9cdbcad4e50"),
+                            Address = "795-859-7679",
+                            FullName = "Joey Connelly"
                         },
                         new
                         {
-                            Id = new Guid("9bc7b509-b7bf-456e-ae60-a6f1ed86901f"),
-                            Address = "(448) 260-3708 x71042",
-                            FullName = "Sandy Lehner"
+                            Id = new Guid("19afa6e8-5b3b-4457-b20e-59a9e34190cd"),
+                            Address = "314-248-3458 x3514",
+                            FullName = "Carlton Anderson"
                         },
                         new
                         {
-                            Id = new Guid("40d2d041-10a1-42e1-aa81-6278272411f1"),
-                            Address = "(801) 946-7295 x98272",
-                            FullName = "Melody Okuneva"
+                            Id = new Guid("6bcc84a8-c021-4f9f-b547-b68dd5656403"),
+                            Address = "1-929-562-5347",
+                            FullName = "Sarah Daugherty"
                         },
                         new
                         {
-                            Id = new Guid("853cac5e-7d3a-4f35-8909-7a3ed5f87603"),
-                            Address = "551-889-9225 x049",
-                            FullName = "Cora Keeling"
+                            Id = new Guid("8d322838-0270-45c9-b40b-8c18424aa519"),
+                            Address = "(832) 796-8968 x17447",
+                            FullName = "Benjamin Weber"
                         },
                         new
                         {
-                            Id = new Guid("51e4e254-5a26-47fe-95db-2fdb4905b952"),
-                            Address = "1-323-582-1328 x1464",
-                            FullName = "Alan Wiegand"
+                            Id = new Guid("f17ec1e2-1759-48bd-9090-e6bca65c1883"),
+                            Address = "796-757-1539 x27721",
+                            FullName = "Corey Flatley"
                         },
                         new
                         {
-                            Id = new Guid("0a4ff21e-ff7c-4eeb-ba53-dfede6387a75"),
-                            Address = "1-851-647-0551 x3225",
-                            FullName = "Raquel Kemmer"
+                            Id = new Guid("fea4c48e-d307-4e88-8fcf-7f57c3600f9e"),
+                            Address = "(439) 322-3085 x52714",
+                            FullName = "Vincent McDermott"
                         },
                         new
                         {
-                            Id = new Guid("6fd50aee-7bc2-41d8-91dc-0545951f8339"),
-                            Address = "756.981.7431 x850",
-                            FullName = "Ralph Hintz"
+                            Id = new Guid("2841872a-1f16-41b1-8c70-9ec728baf976"),
+                            Address = "847-637-6551",
+                            FullName = "Fannie Legros"
                         },
                         new
                         {
-                            Id = new Guid("a5fa41d1-58df-4523-a8a1-9d968f488428"),
-                            Address = "(771) 344-2897",
-                            FullName = "Cedric O'Keefe"
+                            Id = new Guid("eca0bc65-c40d-4e05-a744-c74fce8cb9a6"),
+                            Address = "929-932-1755 x16257",
+                            FullName = "Shelly Kassulke"
                         });
                 });
 
@@ -219,30 +219,30 @@ namespace EasyBank.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("FullName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Phone")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Position")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Role")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -251,63 +251,63 @@ namespace EasyBank.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("f7210738-5773-4974-b10e-6b3015e07335"),
+                            Id = new Guid("adbf277a-3c40-47dc-9425-081e8cb2563a"),
                             Email = "otabek.pro@hotmail.com",
                             FullName = "Otabek Rustamov",
                             Password = "123123123",
-                            Phone = "403.793.9706",
+                            Phone = "1-364-246-6467",
                             Position = "Developer",
                             Role = "Admin"
                         },
                         new
                         {
-                            Id = new Guid("93249b5e-679f-473a-85c6-e5f9b192003f"),
-                            Email = "Jeremiah_Bradtke@gmail.com",
-                            FullName = "Jeremiah Bradtke",
+                            Id = new Guid("1f6b0a86-084d-4d9f-8417-3dc506273fab"),
+                            Email = "Theodore.Turcotte37@hotmail.com",
+                            FullName = "Theodore Turcotte",
                             Password = "123123123",
-                            Phone = "800-841-7700 x7157",
-                            Position = "cook",
+                            Phone = "857-768-5449",
+                            Position = "hr",
                             Role = "Employee"
                         },
                         new
                         {
-                            Id = new Guid("373df8ad-d11d-460f-9c96-6a0d8b73eec3"),
-                            Email = "Sue_Rutherford9@gmail.com",
-                            FullName = "Sue Rutherford",
+                            Id = new Guid("7def9946-13a0-4a60-8fe2-164cf45a14ab"),
+                            Email = "Melanie40@hotmail.com",
+                            FullName = "Melanie O'Reilly",
                             Password = "123123123",
-                            Phone = "1-695-867-8294 x33812",
+                            Phone = "(649) 773-2186 x0401",
+                            Position = "security",
+                            Role = "Director"
+                        },
+                        new
+                        {
+                            Id = new Guid("2763740f-ed19-432d-84c8-bd8caf6735d0"),
+                            Email = "Jonathon.Durgan@gmail.com",
+                            FullName = "Jonathon Durgan",
+                            Password = "123123123",
+                            Phone = "1-234-792-5593 x25195",
+                            Position = "developer",
+                            Role = "Employee"
+                        },
+                        new
+                        {
+                            Id = new Guid("1e42e661-1530-4326-bdf1-46b1b48fd2da"),
+                            Email = "Francisco.Lynch50@hotmail.com",
+                            FullName = "Francisco Lynch",
+                            Password = "123123123",
+                            Phone = "555-872-5080 x8993",
                             Position = "cook",
                             Role = "Director"
                         },
                         new
                         {
-                            Id = new Guid("3d571baf-4203-43d7-95b3-ff5506f4f6b2"),
-                            Email = "Roger23@gmail.com",
-                            FullName = "Roger Littel",
+                            Id = new Guid("4f6787d8-0be7-4a23-9200-de90b2265cfc"),
+                            Email = "Delbert_Schiller@hotmail.com",
+                            FullName = "Delbert Schiller",
                             Password = "123123123",
-                            Phone = "1-428-454-2228",
-                            Position = "security",
-                            Role = "Admin"
-                        },
-                        new
-                        {
-                            Id = new Guid("eaded916-695a-446e-ac88-edb770589bef"),
-                            Email = "Sara_Kessler54@yahoo.com",
-                            FullName = "Sara Kessler",
-                            Password = "123123123",
-                            Phone = "220-259-7151 x0874",
-                            Position = "security",
-                            Role = "Admin"
-                        },
-                        new
-                        {
-                            Id = new Guid("78549e86-3681-4c02-a29f-49d0c3f75d95"),
-                            Email = "Erika_Kreiger@yahoo.com",
-                            FullName = "Erika Kreiger",
-                            Password = "123123123",
-                            Phone = "1-593-487-4661",
+                            Phone = "(429) 875-2648",
                             Position = "developer",
-                            Role = "Employee"
+                            Role = "Director"
                         });
                 });
 
@@ -315,25 +315,25 @@ namespace EasyBank.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid");
 
                     b.Property<Guid?>("CardId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid");
 
                     b.Property<Guid?>("CustomerId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid");
 
                     b.Property<Guid?>("EmployeeId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid");
 
                     b.Property<int>("OperationDescription")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<int>("OperationType")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<DateTime>("Timestamp")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 
@@ -350,18 +350,18 @@ namespace EasyBank.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid");
 
                     b.Property<string>("EmployeeId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("Expires")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Token")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
