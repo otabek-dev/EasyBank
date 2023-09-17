@@ -2,7 +2,6 @@
 using EasyBank.DTOs;
 using EasyBank.Models;
 using EasyBank.Results;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -28,12 +27,12 @@ namespace EasyBank.Services
         {
             var emp = await _context.Employees.SingleOrDefaultAsync(e => e.Email == employee.Email);
             if (emp is null)
-                return new Result(false,"User nut found!"); //"User nut found!"
+                return new Result(false, "User nut found!");
 
             var verifyPassword = _passwordHashService.VerifyPassword(emp.Password, employee.Password);
 
             if (!verifyPassword)
-                return new Result(false, "Password wrong!!"); //"Password wrong!"
+                return new Result(false, "Password wrong!!");
 
             var tokens = await _tokenService.CreateTokens(emp);
             return new DataResult<TokensDto>(tokens);
@@ -48,7 +47,7 @@ namespace EasyBank.Services
                 return new Result(true, "Email already exist!");
 
             var passwordHash = _passwordHashService.HashPassword(employee.Password);
-            
+
             var emp = new Employee()
             {
                 Id = Guid.NewGuid(),
@@ -62,7 +61,7 @@ namespace EasyBank.Services
 
             await _context.Employees.AddAsync(emp);
             await _context.SaveChangesAsync();
-            return new DataResult<Employee>(emp,true, "Account created!");
+            return new DataResult<Employee>(emp, true, "Account created!");
         }
     }
 }

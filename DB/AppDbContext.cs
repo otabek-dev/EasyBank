@@ -1,4 +1,5 @@
 ﻿using EasyBank.Models;
+using EasyBank.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace EasyBank.DB
@@ -23,7 +24,8 @@ namespace EasyBank.DB
                 .HasForeignKey(h => h.EmployeeId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            new AppDbConfig(modelBuilder).Configure();
+            var passwordHasher = new PasswordHashService();
+            new AppDbConfig(modelBuilder, passwordHasher).Configure();
         }
     }
 }

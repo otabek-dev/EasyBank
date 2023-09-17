@@ -66,8 +66,6 @@ namespace EasyBank.DI
             services.AddScoped<HistoryService>();
             services.AddScoped<ReportService>();
             services.AddScoped<PasswordHashService>();
-
-            //services.AddScoped<IPasswordHasher<LoginDto>, PasswordHasher<LoginDto>>();
         }
 
         public static void DBInjections(this IServiceCollection services,
