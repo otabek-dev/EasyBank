@@ -11,7 +11,7 @@ namespace EasyBank.DI
 {
     public static class Dependencies
     {
-        public static void AuthConfig(this IServiceCollection services, 
+        public static void AuthConfig(this IServiceCollection services,
             WebApplicationBuilder builder)
         {
             services.AddSwaggerGen(c =>
@@ -55,7 +55,7 @@ namespace EasyBank.DI
             });
         }
 
-        public static void ScopedInjections(this IServiceCollection services, 
+        public static void ScopedInjections(this IServiceCollection services,
             WebApplicationBuilder builder)
         {
             services.AddScoped<AuthService>();
@@ -65,11 +65,12 @@ namespace EasyBank.DI
             services.AddScoped<CardService>();
             services.AddScoped<HistoryService>();
             services.AddScoped<ReportService>();
+            services.AddScoped<PasswordHashService>();
 
-            services.AddScoped<IPasswordHasher<LoginDto>, PasswordHasher<LoginDto>>();
+            //services.AddScoped<IPasswordHasher<LoginDto>, PasswordHasher<LoginDto>>();
         }
 
-        public static void DBInjections(this IServiceCollection services, 
+        public static void DBInjections(this IServiceCollection services,
             WebApplicationBuilder builder)
         {
             services.AddDbContext<AppDbContext>(options =>

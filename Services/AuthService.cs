@@ -12,16 +12,16 @@ namespace EasyBank.Services
     {
         private readonly AppDbContext _context;
         private readonly TokenService _tokenService;
-        private readonly IPasswordHasher<LoginDto> _passwordHasher;
+        private readonly PasswordHashService _passwordHashService;
 
         public AuthService(
             AppDbContext context,
             TokenService tokenService,
-            IPasswordHasher<LoginDto> passwordHasher)
+            PasswordHashService passwordHashService)
         {
             _context = context;
             _tokenService = tokenService;
-            _passwordHasher = passwordHasher;
+            _passwordHashService = passwordHashService;
         }
 
         public async Task<Result> Login(LoginDto employee)
@@ -30,13 +30,9 @@ namespace EasyBank.Services
             if (emp is null)
                 return new Result(false,"User nut found!"); //"User nut found!"
 
-            /*HashPassword
-            //var verifPassword = _passwordHasher.VerifyHashedPassword(employee, emp.Password, employee.Password);
-            //if (verifPassword == PasswordVerificationResult.Failed)
-            //    return BadRequest("Email or password wrong!");
-            */
+            var verifyPassword = _passwordHashService.VerifyPassword(emp.Password, employee.Password);
 
-            if (emp.Password != employee.Password)
+            if (!verifyPassword)
                 return new Result(false, "Password wrong!!"); //"Password wrong!"
 
             var tokens = await _tokenService.CreateTokens(emp);
@@ -45,28 +41,20 @@ namespace EasyBank.Services
 
         public async Task<Result> Register([FromBody] RegisterDto employee)
         {
-            /*HashPassword
-            //var loginDto = new LoginDto()
-            //{
-            //    Email = employee.Email,
-            //    Password = employee.Password
-            //};
-
-            //var passwordHash = _passwordHasher.HashPassword(loginDto, loginDto.Password);
-            */
-
             var findEmployeeByEmail = await _context.Employees
-                .FirstAsync(e => e.Email == employee.Email);
+                .FirstOrDefaultAsync(e => e.Email == employee.Email);
 
             if (findEmployeeByEmail != null)
                 return new Result(true, "Email already exist!");
 
+            var passwordHash = _passwordHashService.HashPassword(employee.Password);
+            
             var emp = new Employee()
             {
                 Id = Guid.NewGuid(),
                 Email = employee.Email,
                 FullName = employee.FullName,
-                Password = employee.Password,
+                Password = passwordHash,
                 Position = employee.Position,
                 Role = employee.Role,
                 Phone = employee.Phone
@@ -74,7 +62,7 @@ namespace EasyBank.Services
 
             await _context.Employees.AddAsync(emp);
             await _context.SaveChangesAsync();
-            return new Result(true, "Account created!");
+            return new DataResult<Employee>(emp,true, "Account created!");
         }
     }
 }
