@@ -23,27 +23,21 @@ namespace EasyBank.Services
                     && x.Timestamp <= reportDto.EndDate.ToUniversalTime());
 
             var groupedOperations = await operations
-                .GroupBy(x => new { x.OperationType, x.Timestamp.ToUniversalTime().Date })
-                .Select(group => new
+                .GroupBy(x => new { 
+                    x.OperationType, 
+                    x.OperationDescription,
+                    x.Timestamp.ToUniversalTime().Date 
+                })
+                .Select(group => new Report
                 {
-                    OperationType = group.Key.OperationType,
-                    Date = group.Key.Date,
+                    OperationType = group.Key.OperationType.ToString(),
+                    OperationDescription = group.Key.OperationDescription.ToString(),
+                    Date = group.Key.Date.ToShortDateString().ToString(),
                     Count = group.Count()
                 })
                 .ToListAsync();
 
-            var info = groupedOperations.Select(item =>
-                $"{item.OperationType}: {item.Count} операций ({item.Date:yyyy-MM-dd})");
-
-            var report = new Report()
-            {
-                EmployeeId = reportDto.EmployeeId,
-                StartDate = reportDto.StartDate,
-                EndDate = reportDto.EndDate,
-                OperationInfo = string.Join("\n\t", info)
-            };
-
-            return new DataResult<Report>(report);
+            return new DataResult<List<Report>>(groupedOperations);
         }
     }
 }

@@ -9,7 +9,7 @@ namespace EasyBank.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Admin,Director")]
+    //[Authorize(Roles = "Admin,Director")]
     public class ReportController : ControllerBase
     {
         private readonly ReportService _reportService;

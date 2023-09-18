@@ -1,10 +1,10 @@
 ﻿namespace EasyBank.Models
 {
-    public class Report
+    internal class Report
     {
-        public string? OperationInfo { get; set; }
-        public Guid EmployeeId { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
+        public string OperationType { get; set; } = string.Empty;
+        public string OperationDescription { get; set; } = string.Empty;
+        public string Date { get; set; } = string.Empty;
+        public int Count { get; set; }
     }
 }
