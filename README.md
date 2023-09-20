@@ -39,4 +39,4 @@
    - The quantity and type of operations performed by the selected employee.
    - Breakdown of operations by their execution dates.
 
-![Alt text](https://www.google.com/url?sa=i&url=https%3A%2F%2Fdocs.github.com%2Faccount-and-profile%2Fsetting-up-and-managing-your-github-profile%2Fcustomizing-your-profile%2Fmanaging-your-profile-readme&psig=AOvVaw3417_muQURDj6FSzfIv_7Y&ust=1695291589996000&source=images&cd=vfe&opi=89978449&ved=0CBAQjRxqFwoTCOj0zrf7uIEDFQAAAAAdAAAAABAE)
+![Alt text](https://www.google.com/url?sa=i&url=https%3A%2F%2Fdocs.github.com%2Faccount-and-profile%2Fsetting-up-and-managing-your-github-profile%2Fcustomizing-your-profile%2Fmanaging-your-profile-readme&psig=AOvVaw3417_muQURDj6FSzfIv_7Y&ust=1695291589996000&source=images&cd=vfe&opi=89978449&ved=0CBAQjRxqFwoTCOj0zrf7uIEDFQAAAAAdAAAAABAE](https://github.com/otabek-dev/EasyBank/blob/master/apiEasyBank.png)https://github.com/otabek-dev/EasyBank/blob/master/apiEasyBank.png)
