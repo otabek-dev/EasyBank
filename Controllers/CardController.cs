@@ -25,10 +25,10 @@ namespace EasyBank.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(Guid id)
         {
-            await _historyService.CreateHistoyr(User,
+            await _historyService.CreateHistoyrAsync(User,
                OperationType.Card, OperationDescription.ReadCard);
 
-            var card = await _cardService.GetCardById(id);
+            var card = await _cardService.GetCardByIdAsync(id);
             return Ok(card);
         }
 
@@ -36,10 +36,10 @@ namespace EasyBank.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromQuery] Guid customerId)
         {
-            await _historyService.CreateHistoyr(User,
+            await _historyService.CreateHistoyrAsync(User,
                OperationType.Card, OperationDescription.CreateCard);
 
-            var result = await _cardService.CreateCard(customerId);
+            var result = await _cardService.CreateCardAsync(customerId);
             return Ok(result);
         }
 
@@ -47,10 +47,10 @@ namespace EasyBank.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(Guid id, [FromBody] CardDto model)
         {
-            await _historyService.CreateHistoyr(User,
+            await _historyService.CreateHistoyrAsync(User,
                OperationType.Card, OperationDescription.UpdateCard);
 
-            var result = await _cardService.UpdateCard(id, model);
+            var result = await _cardService.UpdateCardAsync(id, model);
             return Ok(result);
         }
 
@@ -58,10 +58,10 @@ namespace EasyBank.Controllers
         [HttpPut("Block/{id}")]
         public async Task<IActionResult> Block(Guid id)
         {
-            await _historyService.CreateHistoyr(User,
+            await _historyService.CreateHistoyrAsync(User,
                OperationType.Card, OperationDescription.BlockCard);
 
-            var result = await _cardService.BlockCard(id);
+            var result = await _cardService.BlockCardAsync(id);
             return Ok(result);
         }
 
@@ -69,10 +69,10 @@ namespace EasyBank.Controllers
         [HttpPut("UnBlock/{id}")]
         public async Task<IActionResult> UnBlock(Guid id)
         {
-            await _historyService.CreateHistoyr(User,
+            await _historyService.CreateHistoyrAsync(User,
                OperationType.Card, OperationDescription.UnBlockCard);
 
-            var result = await _cardService.UnBlockCard(id);
+            var result = await _cardService.UnBlockCardAsync(id);
             return Ok(result);
         }
 
@@ -80,10 +80,10 @@ namespace EasyBank.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
-            await _historyService.CreateHistoyr(User,
+            await _historyService.CreateHistoyrAsync(User,
                OperationType.Card, OperationDescription.DeleteCard);
 
-            var result = await _cardService.DeleteCard(id);
+            var result = await _cardService.DeleteCardAsync(id);
             return Ok(result);
         }
     }

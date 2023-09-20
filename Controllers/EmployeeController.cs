@@ -22,7 +22,7 @@ namespace EasyBank.Controllers
         [Authorize(Roles = "Admin,Director")]
         public async Task<IActionResult> Get()
         {
-            var employees = await _employeeService.GetAllEmployee();
+            var employees = await _employeeService.GetAllEmployeeAsync();
             return Ok(employees);
         }
 
@@ -31,7 +31,7 @@ namespace EasyBank.Controllers
         [Authorize(Roles = "Admin,Director")]
         public async Task<IActionResult> Get(Guid id)
         {
-            var employee = await _employeeService.GetEmployeeById(id);
+            var employee = await _employeeService.GetEmployeeByIdAsync(id);
             return Ok(employee);
         }
 
@@ -40,7 +40,7 @@ namespace EasyBank.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Post([FromBody] EmployeeDto employee)
         {
-            var result = await _employeeService.CreateEmployee(employee);
+            var result = await _employeeService.CreateEmployeeAsync(employee);
             return Ok(result);
         }
 
@@ -49,7 +49,7 @@ namespace EasyBank.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Put(Guid id, [FromBody] EmployeeDto emp)
         {
-            var result = await _employeeService.UpdateEmployee(id, emp);
+            var result = await _employeeService.UpdateEmployeeAsync(id, emp);
             return Ok(result);
         }
 
@@ -58,7 +58,7 @@ namespace EasyBank.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(Guid id)
         {
-            var result = await _employeeService.DeleteEmployee(id);
+            var result = await _employeeService.DeleteEmployeeAsync(id);
             return Ok(result);
         }
     }

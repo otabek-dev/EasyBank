@@ -15,7 +15,7 @@ namespace EasyBank.Services
             _context = context;
         }
 
-        private async Task<Employee> GetEmployee(ClaimsPrincipal user)
+        private async Task<Employee> GetEmployeeAsync(ClaimsPrincipal user)
         {
             var employeeId = Guid.Empty;
             Guid.TryParse(user.FindFirstValue(ClaimTypes.NameIdentifier), out employeeId);
@@ -23,12 +23,12 @@ namespace EasyBank.Services
             return employee;
         }
 
-        public async Task CreateHistoyr(
+        public async Task CreateHistoyrAsync(
             ClaimsPrincipal user, 
             OperationType operationType,
             OperationDescription operationDescription)
         {
-            var employee = await GetEmployee(user);
+            var employee = await GetEmployeeAsync(user);
             if (employee == null)
                 return;
 

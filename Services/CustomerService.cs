@@ -16,13 +16,13 @@ namespace EasyBank.Services
             _context = context;
         }
 
-        public async Task<Result> GetCustomers()
+        public async Task<Result> GetCustomersAsync()
         {
             var customers = await _context.Customers.ToListAsync();
             return new DataResult<List<Customer>>(customers);
         }
 
-        public async Task<Result> GetCustomerById(Guid id)
+        public async Task<Result> GetCustomerByIdAsync(Guid id)
         {
             var customer = await _context.Customers.FindAsync(id);
             if (customer == null)
@@ -32,7 +32,7 @@ namespace EasyBank.Services
             return new DataResult<Customer>(customer);
         }
 
-        public async Task<Result> CreateCustomer([FromBody] CustomerDto model)
+        public async Task<Result> CreateCustomerAsync([FromBody] CustomerDto model)
         {
             var customer = new Customer
             {
@@ -47,7 +47,7 @@ namespace EasyBank.Services
             return new DataResult<Customer>(customer, true, "Customer created!");
         }
 
-        public async Task<Result> UpdateCustomer(Guid id, CustomerDto model)
+        public async Task<Result> UpdateCustomerAsync(Guid id, CustomerDto model)
         {
             var customer = await _context.Customers.FindAsync(id);
             if (customer == null) 
@@ -59,7 +59,7 @@ namespace EasyBank.Services
             return new DataResult<Customer>(entry.Entity, true, "Customer Updated");
         }
 
-        public async Task<Result> DeleteCustomer(Guid id)
+        public async Task<Result> DeleteCustomerAsync(Guid id)
         {
             var customer = await _context.Customers.FindAsync(id);
             if (customer is null)

@@ -23,7 +23,7 @@ namespace EasyBank.Services
             _passwordHashService = passwordHashService;
         }
 
-        public async Task<Result> Login(LoginDto employee)
+        public async Task<Result> LoginAsync(LoginDto employee)
         {
             var emp = await _context.Employees.SingleOrDefaultAsync(e => e.Email == employee.Email);
             if (emp is null)
@@ -34,11 +34,11 @@ namespace EasyBank.Services
             if (!verifyPassword)
                 return new Result(false, "Password wrong!!");
 
-            var tokens = await _tokenService.CreateTokens(emp);
+            var tokens = await _tokenService.CreateTokensAsync(emp);
             return new DataResult<TokensDto>(tokens);
         }
 
-        public async Task<Result> Register([FromBody] RegisterDto employee)
+        public async Task<Result> RegisterAsync([FromBody] RegisterDto employee)
         {
             var findEmployeeByEmail = await _context.Employees
                 .FirstOrDefaultAsync(e => e.Email == employee.Email);

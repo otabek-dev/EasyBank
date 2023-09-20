@@ -22,14 +22,14 @@ namespace EasyBank.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginDto employee)
         {
-            var tokens = await _employeeAuthService.Login(employee);
+            var tokens = await _employeeAuthService.LoginAsync(employee);
             return Ok(tokens);
         }
 
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterDto employee)
         {
-            var result = await _employeeAuthService.Register(employee);
+            var result = await _employeeAuthService.RegisterAsync(employee);
             return Ok(result);
         }
 
@@ -37,7 +37,7 @@ namespace EasyBank.Controllers
         [Authorize]
         public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenDto refreshTokenRequest)
         {
-            var tokens = await _tokenService.RefreshToken(refreshTokenRequest);
+            var tokens = await _tokenService.RefreshTokenAsync(refreshTokenRequest);
             return Ok(tokens);
         }
     }

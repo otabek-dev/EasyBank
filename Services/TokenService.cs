@@ -29,7 +29,7 @@ namespace EasyBank.Services
             }
         }
 
-        private async Task RemoveExpiredRefreshTokens()
+        private async Task RemoveExpiredRefreshTokensAsync()
         {
             var currentTime = DateTime.UtcNow;
 
@@ -41,7 +41,7 @@ namespace EasyBank.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task<TokensDto> CreateTokens(Employee employee)
+        public async Task<TokensDto> CreateTokensAsync(Employee employee)
         {
             var claims = new List<Claim>
             {
@@ -73,7 +73,7 @@ namespace EasyBank.Services
             return new TokensDto { Token = encodedAccessToken, RefreshToken = refreshToken.Token };
         }
 
-        public async Task<TokensDto> RefreshToken(RefreshTokenDto refreshTokenRequest)
+        public async Task<TokensDto> RefreshTokenAsync(RefreshTokenDto refreshTokenRequest)
         {
             var userId = GetUserIdFromToken(refreshTokenRequest.Token);
             if (userId is null) return new();
@@ -89,11 +89,11 @@ namespace EasyBank.Services
             var emplpyee = await _context.Employees.FindAsync(Guid.Parse(userId));
             if(emplpyee is null) return new();
             
-            var tokens = await CreateTokens(emplpyee);
+            var tokens = await CreateTokensAsync(emplpyee);
             return new TokensDto { Token = tokens.Token, RefreshToken = tokens.RefreshToken};
         }
 
-        public string? GetUserIdFromToken(string userToken)
+        private string? GetUserIdFromToken(string userToken)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var token = tokenHandler.ReadJwtToken(userToken);

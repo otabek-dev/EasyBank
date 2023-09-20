@@ -1,8 +1,6 @@
 ﻿using EasyBank.DB;
-using EasyBank.DTOs;
 using EasyBank.JWT;
 using EasyBank.Services;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;

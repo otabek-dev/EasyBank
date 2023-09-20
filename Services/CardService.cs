@@ -16,7 +16,7 @@ namespace EasyBank.Services
             _context = context;
         }
 
-        public async Task<Result> GetCardById(Guid id)
+        public async Task<Result> GetCardByIdAsync(Guid id)
         {
             var card = await _context.Cards.FirstOrDefaultAsync(e => e.Id == id);
             if (card is null)
@@ -25,7 +25,7 @@ namespace EasyBank.Services
             return new DataResult<Card>(card);
         }
 
-        public async Task<Result> CreateCard(Guid customerId)
+        public async Task<Result> CreateCardAsync(Guid customerId)
         {
             var faker = new Bogus.Faker();
 
@@ -42,7 +42,7 @@ namespace EasyBank.Services
             return new Result(true, "Card created!");
         }
 
-        public async Task<Result> UpdateCard(Guid id, CardDto model)
+        public async Task<Result> UpdateCardAsync(Guid id, CardDto model)
         {
             var card = await _context.Cards.FirstOrDefaultAsync(e => e.Id == id);
             if (card is null)
@@ -54,7 +54,7 @@ namespace EasyBank.Services
             return new Result(true, "Card updated!");
         }
 
-        public async Task<Result> BlockCard(Guid id)
+        public async Task<Result> BlockCardAsync(Guid id)
         {
             var card = await _context.Cards.FirstOrDefaultAsync(e => e.Id == id);
             if (card is null)
@@ -65,7 +65,7 @@ namespace EasyBank.Services
             return new Result(true, "Card blocked!");
         }
 
-        public async Task<Result> UnBlockCard(Guid id)
+        public async Task<Result> UnBlockCardAsync(Guid id)
         {
             var card = await _context.Cards.FirstOrDefaultAsync(e => e.Id == id);
             if (card is null)
@@ -76,7 +76,7 @@ namespace EasyBank.Services
             return new Result(true, "Card unBlocked!");
         }
 
-        public async Task<Result> DeleteCard(Guid id)
+        public async Task<Result> DeleteCardAsync(Guid id)
         {
             var card = await _context.Cards.FirstOrDefaultAsync(e => e.Id == id);
             if (card is null)

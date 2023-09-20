@@ -15,7 +15,7 @@ namespace EasyBank.Services
             _context = context;
         }
 
-        public async Task<Result> CreateReport(ReportDto reportDto)
+        public async Task<Result> CreateReportAsync(ReportDto reportDto)
         {
             var operations = _context.History
                 .Where(x => x.EmployeeId == reportDto.EmployeeId

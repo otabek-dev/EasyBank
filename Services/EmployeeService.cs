@@ -16,13 +16,13 @@ namespace EasyBank.Services
             _passwordHash = passwordHash;
         }
 
-        public async Task<Result> GetAllEmployee()
+        public async Task<Result> GetAllEmployeeAsync()
         {
             var employees = await _context.Employees.ToListAsync();
             return new DataResult<List<Employee>>(employees);
         }
 
-        public async Task<Result> GetEmployeeById(Guid id)
+        public async Task<Result> GetEmployeeByIdAsync(Guid id)
         {
             var employee = await _context.Employees
                 .FirstOrDefaultAsync(e => e.Id == id);
@@ -33,7 +33,7 @@ namespace EasyBank.Services
             return new DataResult<Employee>(employee);
         }
 
-        public async Task<Result> CreateEmployee(EmployeeDto employee)
+        public async Task<Result> CreateEmployeeAsync(EmployeeDto employee)
         {
             var emp = GenerateEmployee(employee);
             await _context.Employees.AddAsync(emp);
@@ -41,7 +41,7 @@ namespace EasyBank.Services
             return new Result(true, "Employee created!");
         }
 
-        public async Task<Result> UpdateEmployee(Guid id, EmployeeDto newEmployeeData)
+        public async Task<Result> UpdateEmployeeAsync(Guid id, EmployeeDto newEmployeeData)
         {
             var emp = await _context.Employees.FirstOrDefaultAsync(e => e.Id == id);
             if (emp is null)
@@ -56,7 +56,7 @@ namespace EasyBank.Services
             return new Result(true, "Employee updated!");
         }
 
-        public async Task<Result> DeleteEmployee(Guid id)
+        public async Task<Result> DeleteEmployeeAsync(Guid id)
         {
             var emp = await _context.Employees.FirstOrDefaultAsync(e => e.Id == id);
             if (emp is null)
