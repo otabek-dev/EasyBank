@@ -38,3 +38,5 @@
 2. The report should include the following information:
    - The quantity and type of operations performed by the selected employee.
    - Breakdown of operations by their execution dates.
+
+![Alt text](https://github.com/otabek-dev/EasyBank/blob/master/apiEasyBank.png)
